@@ -1,0 +1,2 @@
+a = "teja"
+print(a)
