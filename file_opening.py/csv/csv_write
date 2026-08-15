@@ -1,0 +1,13 @@
+import csv
+
+students = [
+    ["Teja", 20, 95],
+    ["Rahul", 21, 88],
+    ["Anjali", 20, 92]
+]
+
+with open("new.csv","w") as file:
+    newone = csv.writer(file)
+
+    newone.writerow(["name","age"])
+    newone.writerows(students)
