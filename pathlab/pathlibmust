@@ -1,0 +1,26 @@
+from pathlib import Path
+
+Path("file.txt")                 # Create a Path object
+Path.cwd()                       # Current directory
+
+path.exists()                    # Does it exist?
+path.is_file()                   # Is it a file?
+path.is_dir()                    # Is it a directory?
+
+path.mkdir(exist_ok=True)        # Create directory
+
+path / "file.txt"                # Join paths
+
+path.name                        # Filename
+path.suffix                      # Extension
+path.stem                        # Filename without extension
+path.parent                      # Parent directory
+
+path.iterdir()                   # List directory contents
+path.glob("*.pdf")               # Find files
+path.rglob("*.pdf")              # Find recursively
+
+path.read_text()                 # Read text
+path.write_text("hello")         # Write text
+
+path.stat().st_size              # File size

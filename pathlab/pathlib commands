@@ -1,0 +1,339 @@
+from pathlib import Path
+
+
+# ============================================================
+# 1. CREATE A PATH
+# ============================================================
+
+file = Path("data.txt")
+folder = Path("documents")
+
+# Path() only represents a path.
+# It does NOT create the file/folder.
+
+
+# ============================================================
+# 2. CURRENT WORKING DIRECTORY
+# ============================================================
+
+current = Path.cwd()
+
+print("Current directory:", current)
+
+
+# ============================================================
+# 3. ABSOLUTE PATH
+# ============================================================
+
+print("Absolute path:", file.absolute())
+
+
+# ============================================================
+# 4. CHECK IF PATH EXISTS
+# ============================================================
+
+print("Exists:", file.exists())
+
+
+# ============================================================
+# 5. CHECK IF IT IS A FILE
+# ============================================================
+
+print("Is file:", file.is_file())
+
+
+# ============================================================
+# 6. CHECK IF IT IS A DIRECTORY
+# ============================================================
+
+print("Is directory:", folder.is_dir())
+
+
+# ============================================================
+# 7. CREATE A DIRECTORY
+# ============================================================
+
+folder.mkdir(exist_ok=True)
+
+# exist_ok=True prevents an error
+# if the directory already exists.
+
+
+# ============================================================
+# 8. CREATE NESTED DIRECTORIES
+# ============================================================
+
+nested_folder = Path("data/raw/documents")
+
+nested_folder.mkdir(
+    parents=True,
+    exist_ok=True
+)
+
+# parents=True creates missing parent directories.
+
+
+# ============================================================
+# 9. CREATE AN EMPTY FILE
+# ============================================================
+
+new_file = Path("example.txt")
+
+new_file.touch()
+
+# Creates the file if it doesn't exist.
+
+
+# ============================================================
+# 10. WRITE TEXT TO FILE
+# ============================================================
+
+new_file.write_text("Hello Python\nRAG\nDocker")
+
+# Existing content is replaced.
+
+
+# ============================================================
+# 11. READ TEXT FROM FILE
+# ============================================================
+
+content = new_file.read_text()
+
+print("File content:")
+print(content)
+
+
+# ============================================================
+# 12. DELETE A FILE
+# ============================================================
+
+# new_file.unlink()
+
+# Uncomment to delete the file.
+
+
+# ============================================================
+# 13. RENAME A FILE
+# ============================================================
+
+old_file = Path("example.txt")
+new_name = Path("new_example.txt")
+
+# old_file.rename(new_name)
+
+# Uncomment to rename example.txt → new_example.txt.
+
+
+# ============================================================
+# 14. JOIN PATHS
+# ============================================================
+
+pdf_path = Path("documents") / "rag.pdf"
+
+print("Joined path:", pdf_path)
+
+# Output:
+# documents/rag.pdf
+
+
+# ============================================================
+# 15. FILE NAME
+# ============================================================
+
+file = Path("documents/rag.pdf")
+
+print("Name:", file.name)
+
+# rag.pdf
+
+
+# ============================================================
+# 16. FILE EXTENSION
+# ============================================================
+
+print("Suffix:", file.suffix)
+
+# .pdf
+
+
+# ============================================================
+# 17. FILE NAME WITHOUT EXTENSION
+# ============================================================
+
+print("Stem:", file.stem)
+
+# rag
+
+
+# ============================================================
+# 18. PARENT DIRECTORY
+# ============================================================
+
+print("Parent:", file.parent)
+
+# documents
+
+
+# ============================================================
+# 19. LIST DIRECTORY CONTENTS
+# ============================================================
+
+folder = Path("documents")
+
+if folder.exists():
+
+    for item in folder.iterdir():
+        print("Item:", item)
+
+
+# ============================================================
+# 20. FIND FILES USING glob()
+# ============================================================
+
+if folder.exists():
+
+    for pdf in folder.glob("*.pdf"):
+        print("PDF:", pdf)
+
+# Finds PDF files directly inside documents/.
+# It does NOT search deeper subdirectories.
+
+
+# ============================================================
+# 21. FIND FILES RECURSIVELY USING rglob()
+# ============================================================
+
+if folder.exists():
+
+    for pdf in folder.rglob("*.pdf"):
+        print("PDF:", pdf)
+
+# Searches documents/ AND all its subdirectories.
+
+
+# ============================================================
+# 22. CHECK ONLY FILES
+# ============================================================
+
+if folder.exists():
+
+    for item in folder.iterdir():
+
+        if item.is_file():
+            print("File:", item)
+
+
+# ============================================================
+# 23. CHECK ONLY DIRECTORIES
+# ============================================================
+
+if folder.exists():
+
+    for item in folder.iterdir():
+
+        if item.is_dir():
+            print("Directory:", item)
+
+
+# ============================================================
+# 24. FILE SIZE
+# ============================================================
+
+if file.exists():
+
+    size = file.stat().st_size
+
+    print("File size:", size, "bytes")
+
+
+# ============================================================
+# 25. FILE METADATA
+# ============================================================
+
+if file.exists():
+
+    info = file.stat()
+
+    print("Size:", info.st_size)
+    print("Modified:", info.st_mtime)
+    print("Created/Changed:", info.st_ctime)
+
+
+# ============================================================
+# 26. RESOLVE PATH
+# ============================================================
+
+print("Resolved:", file.resolve())
+
+
+# ============================================================
+# 27. CHECK FILE EXTENSION
+# ============================================================
+
+if file.suffix == ".pdf":
+    print("This is a PDF")
+
+
+# ============================================================
+# 28. CHANGE EXTENSION
+# ============================================================
+
+txt_file = Path("document.txt")
+
+pdf_file = txt_file.with_suffix(".pdf")
+
+print("New path:", pdf_file)
+
+# IMPORTANT:
+# This does NOT convert the file.
+# It only creates a new Path object:
+#
+# document.txt → document.pdf
+
+
+# ============================================================
+# 29. CHANGE FILE NAME
+# ============================================================
+
+old_path = Path("documents/rag.pdf")
+
+new_path = old_path.with_name("python.pdf")
+
+print("New path:", new_path)
+
+# documents/rag.pdf
+#       ↓
+# documents/python.pdf
+
+
+# ============================================================
+# 30. GET ALL PDFs AS A LIST
+# ============================================================
+
+if folder.exists():
+
+    pdfs = list(folder.rglob("*.pdf"))
+
+    print("PDF files:", pdfs)
+
+
+# ============================================================
+# 31. RAG-STYLE FILE DISCOVERY
+# ============================================================
+
+documents = Path("documents")
+
+if documents.exists():
+
+    for pdf in documents.rglob("*.pdf"):
+
+        print("\nProcessing:", pdf)
+        print("Name:", pdf.name)
+        print("Extension:", pdf.suffix)
+        print("Size:", pdf.stat().st_size)
+
+        # Later:
+        # 1. Extract PDF text
+        # 2. Chunk text
+        # 3. Create embeddings
+        # 4. Store embeddings in vector DB
